@@ -8,7 +8,9 @@ You must add the partial implementation of the Fraction class to your
 project by copying and pasting the statement from the appendix to the
 new class.
 
-<img src="./media/image1.png" style="width:3.58333in;height:1.92708in" />The Fraction Calculator GUI
+<img src="./media/image1.png" style="width:3.58333in;height:1.92708in" />
+
+The Fraction Calculator GUI
 
 This is a simple non-usable app. It demonstrates some useful gui
 concepts such as completing a task in more than one way, preventing user
