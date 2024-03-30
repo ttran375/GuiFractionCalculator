@@ -35,6 +35,8 @@ namespace GuiFractionCalculator
         {
             // Button click event handler
             button1.Click += Button1_Click;
+            button2.Click += Button2_Click; // Clear button
+            button3.Click += Button3_Click; // Simplify button
             // Textbox key press event handler
             textBox1.KeyPress += TextBox_KeyPress;
             textBox2.KeyPress += TextBox_KeyPress;
@@ -65,6 +67,41 @@ namespace GuiFractionCalculator
         {
             // Invoke calculation when button is clicked
             DoCalculation();
+        }
+
+        private void Button2_Click(object sender, EventArgs e)
+        {
+            // Clear all textboxes
+            textBox1.Clear();
+            textBox2.Clear();
+            textBox3.Clear();
+            textBox4.Clear();
+            textBox5.Clear();
+            textBox6.Clear();
+        }
+
+        private void Button3_Click(object sender, EventArgs e)
+        {
+            // Simplify the result
+            if (!string.IsNullOrEmpty(textBox5.Text) && !string.IsNullOrEmpty(textBox6.Text))
+            {
+                int numerator = int.Parse(textBox5.Text);
+                int denominator = int.Parse(textBox6.Text);
+                int gcd = GCD(numerator, denominator);
+                textBox5.Text = (numerator / gcd).ToString();
+                textBox6.Text = (denominator / gcd).ToString();
+            }
+        }
+
+        private int GCD(int a, int b)
+        {
+            while (b != 0)
+            {
+                int temp = b;
+                b = a % b;
+                a = temp;
+            }
+            return a;
         }
 
         private void DoCalculation()
