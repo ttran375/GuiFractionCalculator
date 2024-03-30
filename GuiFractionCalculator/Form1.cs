@@ -1,11 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace GuiFractionCalculator
@@ -15,6 +8,105 @@ namespace GuiFractionCalculator
         public Form1()
         {
             InitializeComponent();
+            // Set the tab order
+            SetTabOrder();
+            // Add event handlers
+            AddEventHandlers();
+        }
+
+        private void SetTabOrder()
+        {
+            textBox1.TabIndex = 0;
+            textBox2.TabIndex = 1;
+            textBox3.TabIndex = 2;
+            textBox4.TabIndex = 3;
+            textBox5.TabIndex = 4;
+            textBox6.TabIndex = 5;
+            radioButton1.TabIndex = 6;
+            radioButton2.TabIndex = 7;
+            radioButton3.TabIndex = 8;
+            radioButton4.TabIndex = 9;
+            button1.TabIndex = 10;
+            button2.TabIndex = 11;
+            button3.TabIndex = 12;
+        }
+
+        private void AddEventHandlers()
+        {
+            // Button click event handler
+            button1.Click += Button1_Click;
+            // Textbox key press event handler
+            textBox1.KeyPress += TextBox_KeyPress;
+            textBox2.KeyPress += TextBox_KeyPress;
+            textBox3.KeyPress += TextBox_KeyPress;
+            textBox4.KeyPress += TextBox_KeyPress;
+            textBox5.KeyPress += TextBox_KeyPress;
+            textBox6.KeyPress += TextBox_KeyPress;
+            // Radio button check changed event handler
+            radioButton1.CheckedChanged += RadioButton_CheckedChanged;
+            radioButton2.CheckedChanged += RadioButton_CheckedChanged;
+            radioButton3.CheckedChanged += RadioButton_CheckedChanged;
+            radioButton4.CheckedChanged += RadioButton_CheckedChanged;
+        }
+
+        private void TextBox_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (!char.IsDigit(e.KeyChar) && e.KeyChar != 8) // Allow digits and backspace
+                e.Handled = true; // discard the non-digit entries
+        }
+
+        private void RadioButton_CheckedChanged(object sender, EventArgs e)
+        {
+            // Invoke calculation when radio button changes
+            DoCalculation();
+        }
+
+        private void Button1_Click(object sender, EventArgs e)
+        {
+            // Invoke calculation when button is clicked
+            DoCalculation();
+        }
+
+        private void DoCalculation()
+        {
+            // Determine operation based on checked radio button
+            string operation = "";
+            if (radioButton1.Checked)
+                operation = "-";
+            else if (radioButton2.Checked)
+                operation = "*";
+            else if (radioButton3.Checked)
+                operation = "+";
+            else if (radioButton4.Checked)
+                operation = "/";
+
+            // Get operands
+            int num1 = int.Parse(textBox1.Text);
+            int denom1 = int.Parse(textBox2.Text);
+            int num2 = int.Parse(textBox3.Text);
+            int denom2 = int.Parse(textBox4.Text);
+
+            // Perform operation
+            Fraction result = new Fraction(num1, denom1);
+            switch (operation)
+            {
+                case "+":
+                    result += new Fraction(num2, denom2);
+                    break;
+                case "-":
+                    result -= new Fraction(num2, denom2);
+                    break;
+                case "*":
+                    result *= new Fraction(num2, denom2);
+                    break;
+                case "/":
+                    result /= new Fraction(num2, denom2);
+                    break;
+            }
+
+            // Display result
+            textBox5.Text = result.Top.ToString();
+            textBox6.Text = result.Bottom.ToString();
         }
     }
 }
